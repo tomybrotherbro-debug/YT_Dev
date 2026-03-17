@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: yt-tanglish-backend
+    runtime: docker
+    plan: free
+    rootDir: backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Optional: set in Render Dashboard for real summaries
+      - key: OPENAI_API_KEY
+        sync: false
+
+  - type: web
+    name: yt-tanglish-frontend
+    runtime: docker
+    plan: free
+    rootDir: frontend
+    healthCheckPath: /
+    envVars:
+      - key: BACKEND_HOSTPORT
+        fromService:
+          type: web
+          name: yt-tanglish-backend
+          property: hostport
+
