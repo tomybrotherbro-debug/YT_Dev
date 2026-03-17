@@ -27,7 +27,7 @@ export async function getTranscript(req: Request, res: Response): Promise<void> 
   }
 
   try {
-    const { YoutubeTranscript } = await import('youtube-transcript');
+    const { YoutubeTranscript } = await import('youtube-transcript/dist/youtube-transcript.esm.js');
     const transcriptItems = await YoutubeTranscript.fetchTranscript(videoId);
     const transcript = transcriptItems.map((item: { text: string }) => item.text).join(' ');
     res.json({ transcript, videoId });
