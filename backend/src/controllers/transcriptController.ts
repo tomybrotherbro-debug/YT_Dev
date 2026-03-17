@@ -1,8 +1,4 @@
 import { Request, Response } from 'express';
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
-const { YoutubeTranscript } = require('youtube-transcript');
 
 function extractVideoId(urlOrId: string): string | null {
   const patterns = [
@@ -31,6 +27,7 @@ export async function getTranscript(req: Request, res: Response): Promise<void> 
   }
 
   try {
+    const { YoutubeTranscript } = await import('youtube-transcript');
     const transcriptItems = await YoutubeTranscript.fetchTranscript(videoId);
     const transcript = transcriptItems.map((item: { text: string }) => item.text).join(' ');
     res.json({ transcript, videoId });
