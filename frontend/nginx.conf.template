@@ -8,11 +8,15 @@ server {
   # Proxy API calls to the backend over Render private network.
   # BACKEND_HOSTPORT should look like: my-backend:4000
   location /api/ {
+    # Use Docker/Render internal DNS to resolve service names.
+    # Nginx resolves upstreams at startup unless proxy_pass uses variables.
+    resolver 127.0.0.11 ipv6=off valid=10s;
+    set $api_upstream "http://${BACKEND_HOSTPORT}";
     proxy_http_version 1.1;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_pass http://${BACKEND_HOSTPORT};
+    proxy_pass $api_upstream;
   }
 
   # SPA routing
