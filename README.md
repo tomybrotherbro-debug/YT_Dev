@@ -35,3 +35,4 @@ If you want to run this application on any other laptop or server without instal
 ### Troubleshooting
 - If another service is already using port `80`, you can change the left-hand port mapping in `docker-compose.yml` under `frontend > ports` (e.g., `"8080:80"`).
 - Since this runs headless Playwright in the backend, the first run needs to initialize the AI session credentials.
+# YT_Tanglish
